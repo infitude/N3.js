@@ -469,8 +469,8 @@ describe('N3Store', function () {
   
   describe('An N3Store created with Geospatial triple objects', function () {
     var store = new N3Store([
-      { subject: 'http://foo.org/#APointGeom', predicate: 'geo:asWKT', object: '"Point(-83.4 34.3)"^^<http://www.opengis.net/ont/geosparql#>wktLiteral' },
-      { subject: 'http://foo.org/#AExactGeom', predicate: 'geo:asWKT', object: '"Polygon((-83.6 34.1, -83.2 34.1, -83.2 34.5, -83.6 34.5, -83.6 34.1))"^^<http://www.opengis.net/ont/geosparql#>wktLiteral' },
+      { subject: 'http://foo.org/#APointGeom', predicate: 'geo:asWKT', object: '"Point(-83.4 34.3)"^^<http://www.opengis.net/ont/geosparql#wktLiteral>' },
+      { subject: 'http://foo.org/#AExactGeom', predicate: 'geo:asWKT', object: '"Polygon((-83.6 34.1, -83.2 34.1, -83.2 34.5, -83.6 34.5, -83.6 34.1))"^^<http://www.opengis.net/ont/geosparql#wktLiteral>' },
   
 //      { subject: 'http://foo.org/#s1', predicate: 'http://bar.org/p2', object: 'http://foo.org/#o1' },
 //      { subject: 'http://foo.org/#s2', predicate: 'http://bar.org/p1', object: 'http://foo.org/#o2' },
@@ -482,8 +482,8 @@ describe('N3Store', function () {
 
     describe('should allow to query objects with spatial literals', function () {
       it('should return all triples that intersect with the envelope of the object (Point F)',
-        shouldIncludeAll(store.find(null, null, '"Point(-83.4 34.4)"^^<http://www.opengis.net/ont/geosparql#>wktLiteral'),
-                         ['http://foo.org/#AExactGeom', 'geo:asWKT', '"Polygon((-83.6 34.1, -83.2 34.1, -83.2 34.5, -83.6 34.5, -83.6 34.1))"^^<http://www.opengis.net/ont/geosparql#>wktLiteral', 'null']
+        shouldIncludeAll(store.find(null, null, '"Point(-83.4 34.4)"^^<http://www.opengis.net/ont/geosparql#wktLiteral>'),
+                         ['http://foo.org/#AExactGeom', 'geo:asWKT', '"Polygon((-83.6 34.1, -83.2 34.1, -83.2 34.5, -83.6 34.5, -83.6 34.1))"^^<http://www.opengis.net/ont/geosparql#wktLiteral>', 'null']
                          ));
     });
     
