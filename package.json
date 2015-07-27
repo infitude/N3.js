@@ -60,5 +60,8 @@
   "pre-commit": [
     "lint",
     "test"
-  ]
+  ],
+  "dependencies": {
+    "jsts": "^0.16.0"
+  }
 }
