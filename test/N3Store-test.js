@@ -466,6 +466,28 @@ describe('N3Store', function () {
                          ['a', 'http://www.w3.org/2006/http#b', 'c']));
     });
   });
+  
+  describe('An N3Store created with Geospatial triple objects', function () {
+    var store = new N3Store([
+      { subject: 'http://foo.org/#APointGeom', predicate: 'geo:asWKT', object: '"Point(-83.4 34.3)"^^<http://www.opengis.net/ont/geosparql#>wktLiteral' },
+      { subject: 'http://foo.org/#AExactGeom', predicate: 'geo:asWKT', object: '"Polygon((-83.6 34.1, -83.2 34.1, -83.2 34.5, -83.6 34.5, -83.6 34.1))"^^<http://www.opengis.net/ont/geosparql#>wktLiteral' },
+  
+//      { subject: 'http://foo.org/#s1', predicate: 'http://bar.org/p2', object: 'http://foo.org/#o1' },
+//      { subject: 'http://foo.org/#s2', predicate: 'http://bar.org/p1', object: 'http://foo.org/#o2' },
+//      { subject: 'http://foo.org/#s3', predicate: 'http://bar.org/p3', object: '"a"^^http://foo.org/#t1' },
+//      { subject: 'http://foo.org/#s1', predicate: 'http://bar.org/p1', object: 'http://foo.org/#o1', graph: 'http://graphs.org/#g1' },
+    ]
+//    ,{ prefixes: { 'sf': '<http://www.opengis.net/ont/sf#>', 'geo': '<http://www.opengis.net/ont/geosparql#>', 'g': 'http://graphs.org/#' } }
+    );
+
+    describe('should allow to query objects with spatial literals', function () {
+      it('should return all triples that intersect with the envelope of the object (Point F)',
+        shouldIncludeAll(store.find(null, null, '"Point(-83.4 34.4)"^^<http://www.opengis.net/ont/geosparql#>wktLiteral'),
+                         ['http://foo.org/#AExactGeom', 'geo:asWKT', '"Polygon((-83.6 34.1, -83.2 34.1, -83.2 34.5, -83.6 34.5, -83.6 34.1))"^^<http://www.opengis.net/ont/geosparql#>wktLiteral', 'null']
+                         ));
+    });
+    
+  });
 
   describe('An N3Store', function () {
     var store = new N3Store();
@@ -500,6 +522,8 @@ function shouldIncludeAll(result) {
     if (typeof result === 'function') result = result();
     result.should.have.length(items.length);
     for (var i = 0; i < items.length; i++)
+    {
       result.should.include.something.that.deep.equals(items[i]);
+    }
   };
 }
