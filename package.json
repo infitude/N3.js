@@ -62,7 +62,7 @@
     "test"
   ],
   "dependencies": {
-    "jsts": "^0.16.0",
+    "gdal": "^0.6.0",
     "rbush": "^1.4.0"
   }
 }
